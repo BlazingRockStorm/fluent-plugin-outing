@@ -6,7 +6,7 @@ module Fluent
   class MongoOutingOutput < MongoOutputReplset
 
     RE_STARTED =   /^Started (.+) "(.+)" for (.+) at /
-    RE_SID =       /^  SID: "(.*)" UA: "(.*)" RF: "(.*)"/
+    RE_SID =       /^  :SID "(.*)" :UA "(.*)" :RF "(.*)"/
     RE_COMPLETED = /^Completed (\d+) .* in (.+)ms \(Views: (.+)ms \| ActiveRecord: (.+)ms \| Solr: (.+)ms\)/
 
     def format(tag, time, record)
@@ -21,13 +21,13 @@ module Fluent
           record['rf'] = $3
         elsif RE_COMPLETED =~ message
           record['cd'] = $1
-          record['tr'] = $2
-          record['tv'] = $3
-          record['ta'] = $4
-          record['ts'] = $5
+          record['tr'] = $2.to_f
+          record['tv'] = $3.to_f
+          record['ta'] = $4.to_f
+          record['ts'] = $5.to_f
         end
       end
-      [time, record].to_msgpack
+      super
     end
   end
 end

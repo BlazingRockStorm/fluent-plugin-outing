@@ -10,7 +10,7 @@ class MongoOutingOutputTest < Test::Unit::TestCase
                  "Processing by FacilitiesController#index
 as HTML",
                  "  Parameters: {\"word\"=>\"屋内施設\"}",
-                 "  SID: \"376c8e11d46eb8fd4978e238c863a24e476dc007\" UA: \"Mozilla/5.0 (X11; Linux x86_64; rv:10.0.11) Gecko/20100101 Firefox/10.0.11 Iceweasel/10.0.11\" RF: \"/\"",
+                 "  :SID \"376c8e11d46eb8fd4978e238c863a24e476dc007\" :UA \"Mozilla/5.0 (X11; Linux x86_64; rv:10.0.11) Gecko/20100101 Firefox/10.0.11 Iceweasel/10.0.11\" :RF \"/\"",
                  "Completed 200 OK in 3922ms (Views: 1731.3ms | ActiveRecord: 441.4ms | Solr: 687.0ms)" ]
     }
     time, record = MessagePack.unpack(x.format(nil, nil, record))
@@ -21,9 +21,9 @@ as HTML",
     assert_equal 'Mozilla/5.0 (X11; Linux x86_64; rv:10.0.11) Gecko/20100101 Firefox/10.0.11 Iceweasel/10.0.11', record['ua']
     assert_equal '/', record['rf']
     assert_equal '200', record['cd']
-    assert_equal '3922', record['tr']
-    assert_equal '1731.3', record['tv']
-    assert_equal '441.4', record['ta']
-    assert_equal '687.0', record['ts']
+    assert_equal 3922, record['tr']
+    assert_equal 1731.3, record['tv']
+    assert_equal 441.4, record['ta']
+    assert_equal 687.0, record['ts']
   end
 end
