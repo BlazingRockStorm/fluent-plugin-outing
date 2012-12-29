@@ -1,9 +1,10 @@
 require 'fluent/plugin/out_mongo_replset'
 
 module Fluent
-  Fluent::Plugin.register_output('mongo_outing', self)
 
   class MongoOutingOutput < MongoOutputReplset
+
+    Fluent::Plugin.register_output('mongo_outing', self)
 
     RE_STARTED =   /^Started (.+) "(.+)" for (.+) at /
     RE_SID =       /^  :SID "(.*)" :UID "(.*)" :UA "(.*)" :RF "(.*)"/
