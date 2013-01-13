@@ -29,6 +29,8 @@ module Fluent
           record['ts'] = $5.to_f
         end
       end
+    rescue
+    ensure
       super
     end
   end
