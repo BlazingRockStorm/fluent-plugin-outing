@@ -11,26 +11,28 @@ module Fluent
     RE_COMPLETED = /^Completed (\d+) .* in (.+)ms \(Views: (.+)ms \| ActiveRecord: (.+)ms \| Solr: (.+)ms\)/
 
     def format(tag, time, record)
-      record['messages'].each do |message|
-        if RE_STARTED =~ message
-          record['mt'] = $1
-          record['pt'] = $2
-          record['ip'] = $3
-        elsif RE_SID =~ message
-          record['sid'] = $1
-          record['uid'] = $2
-          record['ua'] = $3
-          record['rf'] = $4
-        elsif RE_COMPLETED =~ message
-          record['cd'] = $1
-          record['tr'] = $2.to_f
-          record['tv'] = $3.to_f
-          record['ta'] = $4.to_f
-          record['ts'] = $5.to_f
+      begin
+        record['messages'].each do |message|
+          message = message.encode('UTF-16', :invalid => :replace).encode('UTF-8', :invalid => :replace)
+          if RE_STARTED =~ message
+            record['mt'] = $1
+            record['pt'] = $2
+            record['ip'] = $3
+          elsif RE_SID =~ message
+            record['sid'] = $1
+            record['uid'] = $2
+            record['ua'] = $3
+            record['rf'] = $4
+          elsif RE_COMPLETED =~ message
+            record['cd'] = $1
+            record['tr'] = $2.to_f
+            record['tv'] = $3.to_f
+            record['ta'] = $4.to_f
+            record['ts'] = $5.to_f
+          end
         end
+      rescue
       end
-    rescue
-    ensure
       super
     end
   end
